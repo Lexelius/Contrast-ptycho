@@ -103,10 +103,11 @@ if __name__=='__main__':
     h5rec = Hdf5Recorder(name='h5rec')
     h5rec.start()
 
+    zmq_fix1()  ##
     zmqrec = StreamRecorder(name='zmqrec')
     print("Defined zmqrec!") ##
-    zmq_fix1() ##
     zmqrec.start()
+
 
     # this MotorMemorizer keeps track of motor user positions and
     # limits, and dumps this to file when they are changed.
@@ -221,6 +222,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 plt.matshow(np.log(diffraction_patterns[222]),0)
 
+# ZMQ: figure out why zmq not active in lsrec, make a test zmq server & client
 # Perform ptychography on diffraction patterns created by dummy_ptycho
 # Divide ptypy data according to contrast motor position/scan
 # Make plot of the position trajectory
