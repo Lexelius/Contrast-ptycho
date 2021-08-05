@@ -1,6 +1,7 @@
 """
 To be run after v2_dummy_beamline.py
 Combines "sim_ptycho_scan.py" and "/Users/lexelius/Documents/PtyPy/ptypy-master/tutorial/ownengine.py".
+*In progress*
 """
 
 import sys
