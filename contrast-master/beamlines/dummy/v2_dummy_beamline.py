@@ -142,6 +142,7 @@ runCommand('dummy_ptycho')
 # runCommand('dummy_ptycho_v1')
 #%%
 # Read content of output file
+
 import h5py
 outfile = env.paths.directory + "/000000.h5"
 try:
