@@ -161,7 +161,7 @@ except:
     print("Error trying to open the output file, try running the cell again.")
 
 
-# read_h5(fn) is taken from: https://www.programcreek.com/python/example/28022/h5py.Dataset
+# read_h5(fn) and h5py_dataset_iterator() is taken from: https://www.programcreek.com/python/example/28022/h5py.Dataset
 def read_h5(fn):
     """Read h5 file into dict.
     Dict keys are the group + dataset names, e.g. '/a/b/c/dset'. All keys start
