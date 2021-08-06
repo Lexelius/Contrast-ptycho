@@ -14,6 +14,7 @@ if __name__=='__main__':
     from contrast.environment import env, register_shortcut
     from contrast.recorders import Hdf5Recorder, StreamRecorder
     import os
+    from time import sleep
 
     # if you have ptypy installed, you can generate mock ptycho data
     #from sim_ptycho_scan import *
@@ -94,7 +95,10 @@ if __name__=='__main__':
         Check if zmqrec is already running and stop it if it is.
         """
         try:
-            zmqrec.stop()
+            for r in StreamRecorder.getinstances():
+                print(r)
+                r.stop()
+            ##zmqrec.stop()
         except:
             pass
     ##
@@ -132,7 +136,7 @@ if __name__=='__main__':
 
     contrast.wisdom()
 
-#%% # Run a cell with [option]+[Shift]+[Enter]
+#%% Run a cell in PyCharm with [option]+[Shift]+[Enter]
 
 # Run the macro defined in sim_ptycho_scan.py
 from contrast.environment import runCommand
@@ -141,6 +145,7 @@ runCommand('dummy_ptycho')
 # from Ptycho_scan_v1 import *
 # runCommand('dummy_ptycho_v1')
 #%%
+
 # Read content of output file
 
 import h5py
@@ -161,7 +166,7 @@ except:
     print("Error trying to open the output file, try running the cell again.")
 
 
-# read_h5(fn) and h5py_dataset_iterator() is taken from: https://www.programcreek.com/python/example/28022/h5py.Dataset
+# read_h5(fn) and h5py_dataset_iterator(..) is taken from: https://www.programcreek.com/python/example/28022/h5py.Dataset
 def read_h5(fn):
     """Read h5 file into dict.
     Dict keys are the group + dataset names, e.g. '/a/b/c/dset'. All keys start
@@ -223,9 +228,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 plt.matshow(np.log(diffraction_patterns[222]),0)
 
-# ZMQ: figure out why zmq not active in lsrec, make a test zmq server & client
+
+## TO DO:
+# ZMQ:  make a test zmq server & client
 # Perform ptychography on diffraction patterns created by dummy_ptycho
 # Divide ptypy data according to contrast motor position/scan
 # Make plot of the position trajectory
-
+# In the cell "Read content of output file" exchange the 'try' to check if the file is still being written to
 

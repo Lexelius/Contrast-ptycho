@@ -79,7 +79,7 @@ class Dummy_Ptycho(object):
                 # print spec-style info
                 print('%-6u%-10.4f%-10.4f%10s' % (n, dct['x']*1e6, dct['y']*1e6, dct['diff'].shape))
                 n += 1
-                time.sleep(.001) ## .2
+                time.sleep(.1) ## .2
 
         except KeyboardInterrupt:
             print('\nScan #%d cancelled at %s' % (self.scannr, time.asctime()))
