@@ -228,9 +228,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 plt.matshow(np.log(diffraction_patterns[222]),0)
 
-
+#%%
 ## TO DO:
-# ZMQ:  make a test zmq server & client
+#       ZMQ:  make a test zmq server & client
 # Perform ptychography on diffraction patterns created by dummy_ptycho
 # Divide ptypy data according to contrast motor position/scan
 # Make plot of the position trajectory
