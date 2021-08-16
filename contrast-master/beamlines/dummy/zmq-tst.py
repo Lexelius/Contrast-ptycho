@@ -1,6 +1,7 @@
 import zmq
 import numpy as np
 import matplotlib.pyplot as plt
+import ptypy
 
 context = zmq.Context()
 socket = context.socket(zmq.SUB)
@@ -22,6 +23,7 @@ while True:
         y.append(list(message.values())[1])
         diff.append(list(message.values())[2])
         status.append(list(message.values())[3])
+        P = ptypy.core.Ptycho(message, level=2)
         ##plt.matshow(np.log(diff[-1]), 0) ## to inefficient
         print(f"x = {x[-1]}, y = {y[-1]}")
     ##print(message)

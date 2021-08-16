@@ -136,7 +136,7 @@ if __name__=='__main__':
 
     contrast.wisdom()
 
-#%% Run a cell in PyCharm with [option]+[Shift]+[Enter]
+#%% Run a cell in PyCharm. with [option]+[Shift]+[Enter]
 
 # Run the macro defined in sim_ptycho_scan.py
 from contrast.environment import runCommand
