@@ -28,8 +28,8 @@ class Dummy_Ptycho(object):
 
         # create data parameter branch
         data = u.Param()
-        data.shape = 256
-        data.num_frames = 400
+        data.shape = 128##256
+        data.num_frames = 100#400
         data.density = .1
         data.min_frames = 1
         data.label=None

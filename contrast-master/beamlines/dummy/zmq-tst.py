@@ -13,6 +13,7 @@ x = []
 y = []
 diff = []
 status = []
+messages = []
 np.seterr(divide = 'ignore') # ignore error from taking the log of zero. Default is 'warn'
 # alternatevly you could instead plot with:
 # plt.matshow(np.log(np.where(diff[-1] > 1.0e-10, diff[-1], np.nan)), 0)
@@ -23,10 +24,11 @@ while True:
         y.append(list(message.values())[1])
         diff.append(list(message.values())[2])
         status.append(list(message.values())[3])
-        P = ptypy.core.Ptycho(message, level=2)
+        messages.append(message)
+        ##P = ptypy.core.Ptycho(message, level=2)
         ##plt.matshow(np.log(diff[-1]), 0) ## to inefficient
-        print(f"x = {x[-1]}, y = {y[-1]}")
-    ##print(message)
+        ##print(f"x = {x[-1]}, y = {y[-1]}")
+    print(message)
 
 #%% Figuring out how to send data to perform ptychography
 # Stuff from ptypy-master/tutorial/simupod.py

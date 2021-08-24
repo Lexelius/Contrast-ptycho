@@ -1,6 +1,16 @@
 """
 Sets up a mock beamline with dummy motors and detectors.
 """
+## Run a cell in PyCharm. with [option]+[Shift]+[Enter]
+"""
+Overall project outline:
+* Set up mock beamline with recorders etc.
+* Create mock data of experiment scan using a mock sample with PtyPy
+    - Determine the experimental scanning parameters
+    - Create diffraction patterns based on mock sample and experimental scanning parameters
+* Simulate mock experiment which sends the data to the recorders
+* Perform ptychographic reconstruction with PtyPy with data read from the recorders
+"""
 
 # need this main guard here because Process.start() (so our recorders)
 # import __main__, and we don't want the subprocess to start new sub-
@@ -136,7 +146,7 @@ if __name__=='__main__':
 
     contrast.wisdom()
 
-#%% Run a cell in PyCharm. with [option]+[Shift]+[Enter]
+#%% Simulate diffraction patterns being recorded using PtyPy
 
 # Run the macro defined in sim_ptycho_scan.py
 from contrast.environment import runCommand
