@@ -1,10 +1,7 @@
 """
-To be run after v2_dummy_beamline.py
-Combines "sim_ptycho_scan.py"
-*In progress*
+Called from second cell of 'v2_dummy_beamline.py'.
+This script is a slightly modified version 'sim_ptycho_scan.py'.
 
-"I'm trying to make a reconstruction using data loaded
-from a variable (and eventually directly from the zmq-recorder)."
 """
 
 import sys
@@ -14,7 +11,6 @@ from ptypy import utils as u
 
 from contrast.environment import macro, env
 from contrast.recorders import active_recorders, RecorderHeader, RecorderFooter
-
 
 @macro
 class Dummy_Ptycho(object):
@@ -40,7 +36,7 @@ class Dummy_Ptycho(object):
         data = u.Param()
         data.shape = 128##256
         data.num_frames = 100#400
-        data.density = .1
+        data.density = .2
         data.min_frames = 1
         data.label=None
         data.psize=172e-6
@@ -50,8 +46,8 @@ class Dummy_Ptycho(object):
         data.auto_center = True ##None
         data.orientation = None
         ## data.model = 'raster'
-        data.save = 'link' ##
-        data.dfile = '/Users/lexelius/Documents/Contrast/temp/linkdata1.ptyd' ## with save='link', this creates a new .ptyd file.
+        # data.save = 'link' ##
+        # data.dfile = '/Users/lexelius/Documents/Contrast/temp/linkdata1.ptyd' ## with save='link', this creates a new .ptyd file.
 
         # create PtyScan instance
         self.MF = ptypy.core.data.MoonFlowerScan(data)
@@ -63,7 +59,7 @@ class Dummy_Ptycho(object):
         detectors, and data recorders.
         """
         ## To Do:  check such that recorders are actually active.
-        print('\nScan #%d starting at %s\n' % (self.scannr, time.asctime()))
+        print('\nv2 Scan #%d starting at %s\n' % (self.scannr, time.asctime()))
         print('#     x          y          data')
         print('-----------------------------------------------')
 
