@@ -1,12 +1,27 @@
 """
 Sets up a mock beamline with dummy motors and detectors.
 """
+## Run a cell in PyCharm with [option]+[Shift]+[Enter]
+"""
+Overall project outline:
+* ('v2_dummy_beamline.py': cell 1) 
+  Set up mock beamline with recorders etc.
+* ('livescan.py') 
+  Prepare ptychographic reconstruction with PtyPy, start listening for data to read from 
+    the recorders, and perform live reconstruction while data is being acquired.
+* ('v2_dummy_beamline.py': cell 2 --> 'Ptycho_scan_v2.py': __init__(self))
+  Create mock data of experiment scan using a mock sample with PtyPy.
+    - Determine the experimental scanning parameters.
+    - Create diffraction patterns based on mock sample and experimental scanning parameters.
+* ('v2_dummy_beamline.py': cell 2 --> 'Ptycho_scan_v2.py': run(self))
+  Simulate mock experiment which sends the data to the recorders
+
+"""
 
 # need this main guard here because Process.start() (so our recorders)
 # import __main__, and we don't want the subprocess to start new sub-
 # processes etc.
 if __name__=='__main__':
-
     import contrast
     from contrast.motors import DummyMotor, MotorMemorizer, ExamplePseudoMotor
     from contrast.scans import *
@@ -14,6 +29,7 @@ if __name__=='__main__':
     from contrast.environment import env, register_shortcut
     from contrast.recorders import Hdf5Recorder, StreamRecorder
     import os
+    from time import sleep
 
     # if you have ptypy installed, you can generate mock ptycho data
     #from sim_ptycho_scan import *
@@ -94,7 +110,10 @@ if __name__=='__main__':
         Check if zmqrec is already running and stop it if it is.
         """
         try:
-            zmqrec.stop()
+            for r in StreamRecorder.getinstances():
+                print(r)
+                r.stop()
+            ##zmqrec.stop()
         except:
             pass
     ##
@@ -103,10 +122,11 @@ if __name__=='__main__':
     h5rec = Hdf5Recorder(name='h5rec')
     h5rec.start()
 
+    zmq_fix1()  ##
     zmqrec = StreamRecorder(name='zmqrec')
     print("Defined zmqrec!") ##
-    zmq_fix1() ##
     zmqrec.start()
+
 
     # this MotorMemorizer keeps track of motor user positions and
     # limits, and dumps this to file when they are changed.
@@ -131,98 +151,15 @@ if __name__=='__main__':
 
     contrast.wisdom()
 
-#%% # Run a cell with [option]+[Shift]+[Enter]
+#%% Simulate diffraction patterns being recorded using PtyPy
+# Only run this cell after 'livescan_v2.py' have been started
 
-# Run the macro defined in sim_ptycho_scan.py
 from contrast.environment import runCommand
-from sim_ptycho_scan import *
+
+from Ptycho_scan_v2 import *
 runCommand('dummy_ptycho')
-# from Ptycho_scan_v1 import *
-# runCommand('dummy_ptycho_v1')
 #%%
-# Read content of output file
-import h5py
-outfile = env.paths.directory + "/000000.h5"
-try:
-    f = h5py.File(outfile,'r')
-    filekeys = list(f.keys())
-    dset = f[filekeys[0]]
-    print(dset.name) ## = /entry
 
-
-    def printname(name):
-        print(name)
-
-    f.visit(printname)
-
-except:
-    print("Error trying to open the output file, try running the cell again.")
-
-
-# read_h5(fn) is taken from: https://www.programcreek.com/python/example/28022/h5py.Dataset
-def read_h5(fn):
-    """Read h5 file into dict.
-    Dict keys are the group + dataset names, e.g. '/a/b/c/dset'. All keys start
-    with a leading slash even if written without (see :func:`write_h5`).
-    Parameters
-    ----------
-    fn : str
-        filename
-    Examples
-    --------
-    >>> read_h5('foo.h5').keys()
-    ['/a/b/d1', '/a/b/d2', '/a/c/d3', '/x/y/z']
-    """
-    fh = h5py.File(outfile, mode='r')
-    dct = {}
-    def get(name, obj, dct=dct):
-        if isinstance(obj, h5py.Dataset):
-            _name = name if name.startswith('/') else '/'+name
-            dct[_name] = obj[()]
-    fh.visititems(get)
-    fh.close()
-    return dct
-##To do: organize the below to more structured/nested variables
-h5datakeys=read_h5(outfile).keys()
-h5data=read_h5(outfile)
-h5data['/entry/measurement/diff']
-
-# def h5py_dataset_iterator(self, g, prefix=''):
-#     """Group recursive iterator
-#
-#     Iterate through all groups in all branches and return datasets in dicts)
-#     """
-#     for key in g.keys():
-#         item = g[key]
-#         path = '{}/{}'.format(prefix, key)
-#         keys = [i for i in item.keys()]
-#         if isinstance(item[keys[0]], h5py.Dataset):  # test for dataset
-#             data = {'path': path}
-#             for k in keys:
-#                 if not isinstance(item[k], h5py.Group):
-#                     dataset = np.array(item[k][()])
-#
-#                     if isinstance(dataset, np.ndarray):
-#                         if dataset.size != 0:
-#                             if isinstance(dataset[0], np.bytes_):
-#                                 dataset = [a.decode('ascii')
-#                                            for a in dataset]
-#                     data.update({k: dataset})
-#             yield data
-#         else:  # test for group (go down)
-#             yield from self.h5py_dataset_iterator(item, path)
-
-
-
-# Separate diffraction array
-diffraction_patterns = h5data['/entry/measurement/diff'].reshape((int(h5data['/entry/measurement/diff'].shape[0]/h5data['/entry/measurement/diff'].shape[1]),h5data['/entry/measurement/diff'].shape[1],h5data['/entry/measurement/diff'].shape[1]))
-
-import numpy as np
-import matplotlib.pyplot as plt
-plt.matshow(np.log(diffraction_patterns[222]),0)
-
-# Perform ptychography on diffraction patterns created by dummy_ptycho
-# Divide ptypy data according to contrast motor position/scan
-# Make plot of the position trajectory
-
+zmqrec.stop()
+h5rec.stop()
 
