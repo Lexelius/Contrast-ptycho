@@ -40,12 +40,12 @@ class Dummy_Ptycho(object):
         data.min_frames = 1
         data.label=None
         data.psize=172e-6
-        data.energy= 6.2
+        data.energy= 6.2 # keV
         data.center='fftshift'
         data.distance = 7
         data.auto_center = True ##None
         data.orientation = None
-        ## data.model = 'raster'
+        ##data.model = 'raster' ##
         # data.save = 'link' ##
         # data.dfile = '/Users/lexelius/Documents/Contrast/temp/linkdata1.ptyd' ## with save='link', this creates a new .ptyd file.
 
@@ -92,7 +92,7 @@ class Dummy_Ptycho(object):
                 # print spec-style info
                 print('%-6u%-10.4f%-10.4f%10s' % (n, dct['x']*1e6, dct['y']*1e6, dct['diff'].shape))
                 n += 1
-                time.sleep(.1) ## .2
+                time.sleep(.2) ## .2
 
         except KeyboardInterrupt:
             print('\nScan #%d cancelled at %s' % (self.scannr, time.asctime()))

@@ -1,7 +1,7 @@
 """
 Sets up a mock beamline with dummy motors and detectors.
 """
-## Run a cell in PyCharm. with [option]+[Shift]+[Enter]
+## Run a cell in PyCharm with [option]+[Shift]+[Enter]
 """
 Overall project outline:
 * ('v2_dummy_beamline.py': cell 1) 
@@ -152,12 +152,9 @@ if __name__=='__main__':
     contrast.wisdom()
 
 #%% Simulate diffraction patterns being recorded using PtyPy
+# Only run this cell after 'livescan_v2.py' have been started
 
-# Run the macro defined in sim_ptycho_scan.py
 from contrast.environment import runCommand
-
-# from sim_ptycho_scan import *
-# runCommand('dummy_ptycho')
 
 from Ptycho_scan_v2 import *
 runCommand('dummy_ptycho')
